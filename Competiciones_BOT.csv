@@ -1,0 +1,27 @@
+;nombre;caballo;jinete;altura;faltas;resultado;fecha;observaciones
+0;Prueba;;Jose Larocca (h);1;0.0;1.0;23/7/2022;
+1;Prueba1;;Jose Larocca (h);1,1;8.0;12.0;23/7/2022;
+2;Prueba2;;Jose Larocca (h);PC;2.0;12.0;23/7/2022;
+3;Prueba3;;Jose Larocca (h);1;1.0;2.0;23/7/2022;
+4;Prueba4;;Jose Larocca (h);1,4;8.0;4.0;23/7/2022;
+5;Test;;Jose Larocca (h);1;4.0;5.0;23/7/2022;
+6;Test;;Jose Larocca (h);1;1.0;2.0;23/7/2022;
+7;Test;;Jose Larocca (h);1;8.0;12.0;23/7/2022;
+8;;;;;;;;
+9;Test3;;Joaquin Gonzalo Albisu;1,60;2.0;1.0;12/09/2021;
+10;Carga de prueba;;Jose Larocca (h);1,30;1.0;2.0;12/12/2021;
+11;Test4;;Alvaro Alvarracin;1,50;2.0;1.0;21/04/2022;
+12;Francisco en grand prix de barcelona;;Gerardo Minuzzi;1,50;2.0;1.0;13/09/2022;
+13;prueba;Aca Estoy (RR);Alejandra Pimentel;PC;1.0;2.0;12/09/2022;
+14;prueba;Action Lady;Alvaro Alvarracin;1,70;1.0;3.0;12/08/2022;
+15;test12;Aca Estoy (RR);Matias Larocca;1,60;4.0;1.0;23/09/2021;
+16;prueba;Aca Estoy (RR);Matias Larocca;1,60;1.0;1.0;11/11/2022;
+17;prueba;Aca Estoy (RR);Alexis Trosch;1,30;2.0;4.0;11/11/2022;
+18;hola;Casandra;Alvaro Alvarracin;1,70;5.0;1.0;14/08/2022;Me senti comodo
+19;;/start;;1,20;4.0;1.0;11/12/2022;hola
+20;Intercambio nerd;Action Lady;Alvaro Albarracin;1,30;4.0;/start;11/12/2021;j
+21;Prueba intercambio nerd;Aca Estoy (RR);Gerardo Minuzzi;1,50;4.0;1;11/12/2022;eesto es una prueba
+22;Prueba;Aca Estoy (RR);Jose Larocca (h);1,60;0.0;1;12/09/2022;Ajajha
+23;Prueba;Aca Estoy (RR);Jose Larocca (h);1,60;3.0;1;12/09/2002;)-))
+24;Prueba;Aca Estoy (RR);Jose Larocca (h);1,50;0.0;1;12/09/2022;Esto es una prueba
+25;Prueba;Aca Estoy (RR);Jose Larocca (h);1,50;4;1;12/09/2022;Prubea
