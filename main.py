@@ -15,15 +15,16 @@ registro = {'nombre': [''],
 'faltas': [''],
 'resultado': [''],
 'fecha': [''],
+'archivo': [''],
 'observaciones': ['']}
 
 global df_caballos
-df_caballos = pd.read_csv('Listado_caballos.csv', sep=';')
+df_caballos = pd.read_csv('Bajadas Plataforma/Listado_caballos.csv', sep=';')
 lista_caballos = df_caballos['Nombre']
 lista_caballos = lista_caballos.unique()
 
 global df_jinetes
-df_jinetes = pd.read_csv('Competiciones_plataforma.csv', sep=';', encoding='latin-1')
+df_jinetes = pd.read_csv('Bajadas Plataforma/Competiciones_plataforma.csv', sep=';', encoding='latin-1')
 lista_jinetes = df_jinetes['Jinete']
 lista_jinetes = lista_jinetes.unique()
 lista_jinetes = sorted(lista_jinetes)
@@ -97,44 +98,95 @@ def guardar_caballo(message):
 
     registro['caballo'][0] = message.text
     
-    markup = ReplyKeyboardMarkup()
-    markup.add(KeyboardButton('1,00'))
-    markup.add(KeyboardButton('1,20'))
-    markup.add(KeyboardButton('1,30'))
-    markup.add(KeyboardButton('1,40'))
-    markup.add(KeyboardButton('1,50'))
-    markup.add(KeyboardButton('1,60'))
-    markup.add(KeyboardButton('1,70'))
-    markup.add(KeyboardButton('PC'))
+    #markup = ReplyKeyboardMarkup()
+    #markup.add(KeyboardButton('1,00'))
+    #markup.add(KeyboardButton('1,20'))
+    #markup.add(KeyboardButton('1,30'))
+    #markup.add(KeyboardButton('1,40'))
+    #markup.add(KeyboardButton('1,50'))
+    #markup.add(KeyboardButton('1,60'))
+    #markup.add(KeyboardButton('1,70'))
+    #markup.add(KeyboardButton('PC'))
 
-    msg = bot.send_message(chat_id, 'Seleccione la altura del concurso', reply_markup=markup)
+    msg = bot.send_message(chat_id, 'Ingrese la altura del concurso. Si es prueba completa ingrese "PC"')
     bot.register_next_step_handler(msg, guardar_altura)
 
 def guardar_altura(message):
     chat_id = message.chat.id
+    try:
+        altura = float(message.text)
+        
+        registro['altura'][0] = altura
 
-    registro['altura'][0] = message.text
+        text_msg = 'Ingrese la cantidad de faltas'
 
-    markup = ReplyKeyboardRemove()
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_faltas)
+    
+    except:
+        altura = message.text
+        if altura.lower() == "pc":
 
-    msg = bot.send_message(chat_id, 'Ingrese la cantidad de faltas', reply_markup=markup)
-    bot.register_next_step_handler(msg, guardar_faltas)
+            registro['altura'][0] = altura
+            text_msg = 'Ingrese la cantidad de faltas'
+
+            msg = bot.send_message(chat_id, text_msg)
+            bot.register_next_step_handler(msg, guardar_faltas)
+        else:
+
+            text_msg = """
+    Formato de dato ingresado incorrecto!
+            
+    Ingrese la altura del concurso. Si es prueba completa ingrese "PC"
+            """
+            msg = bot.send_message(chat_id, text_msg)
+            bot.register_next_step_handler(msg, guardar_altura)
+
+    #markup = ReplyKeyboardRemove()
 
 def guardar_faltas(message):
     chat_id = message.chat.id
 
-    registro['faltas'][0] = message.text
+    try:
+        faltas = float(message.text)
+        
+        registro['faltas'][0] = faltas
 
-    msg = bot.send_message(chat_id,'Como quedaste en la tabla de posiciones?\nPor ejemplo, si saliste 1ro ingresá 1')
-    bot.register_next_step_handler(msg, guardar_resultado)
+        text_msg = 'Como quedaste en la tabla de posiciones?\nPor ejemplo, si saliste 1ro ingresá 1'
+
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_resultado)
+    
+    except:
+        text_msg = """
+Dato ingresado incorrecto!
+        
+Ingrese la cantidad de faltas
+        """
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_faltas)
 
 def guardar_resultado(message):
     chat_id = message.chat.id
 
-    registro['resultado'][0] = message.text
+    try:
+        resultado = int(message.text)
+        
+        registro['resultado'][0] = resultado
 
-    msg = bot.send_message(chat_id,'Ingrese la fecha del concurso con el siguiente formato (dd/mm/aaaa)')
-    bot.register_next_step_handler(msg, guardar_fecha)
+        text_msg = 'Ingrese la fecha del concurso con el siguiente formato (dd/mm/aaaa)'
+
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_fecha)
+    
+    except:
+        text_msg = """
+Dato ingresado incorrecto!
+        
+Como quedaste en la tabla de posiciones?\nPor ejemplo, si saliste 1ro ingresá 1
+        """
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_resultado)
 
 def guardar_fecha(message):
     chat_id = message.chat.id
@@ -142,7 +194,7 @@ def guardar_fecha(message):
     try:
         fecha = datetime.strptime(message.text, '%d/%m/%Y')
         
-        registro['fecha'][0] = message.text
+        registro['fecha'][0] = fecha
 
         text_msg = "Adjunte el archivo del concurso"
 
@@ -161,8 +213,31 @@ Fecha (dd/mm/aaaa)
 def guardar_archivo(message):
     chat_id = message.chat.id
 
-    msg = bot.send_message(chat_id,'Ingrese alguna observación o comentario sobre el concurso')
-    bot.register_next_step_handler(msg, guardar_observacion)
+    try:
+        fileID = message.video.file_id
+
+        bot.send_message(chat_id,'Cargando...')
+        
+        file_info = bot.get_file(fileID)
+        downloaded_file = bot.download_file(file_info.file_path)
+        file_name = file_info.file_unique_id
+
+        with open(f'Media/{file_name}.mp4', 'wb') as new_file:
+            new_file.write(downloaded_file)
+
+        registro['archivo'][0] = file_name
+
+        msg = bot.send_message(chat_id,'Ingrese alguna observación o comentario sobre el concurso')
+        bot.register_next_step_handler(msg, guardar_observacion)
+
+    except:
+        text_msg = """
+Formato de archivo incorrecto
+
+Adjunte el archivo del concurso
+        """
+        msg = bot.send_message(chat_id, text_msg)
+        bot.register_next_step_handler(msg, guardar_archivo)
 
 def guardar_observacion(message):
     chat_id = message.chat.id

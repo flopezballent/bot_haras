@@ -1,2 +1,0 @@
-- Verificacion de usuario con BBDD de plataforma 
-    Agregar campo opcional de Telegram ID en BBDD usuarios
